@@ -5,24 +5,27 @@ Thumbs.db
 # Logs
 *.log
 
-# Pastas de dependências (caso use futuramente)
+# Pastas de dependências (caso use Node futuramente)
 node_modules/
 
-# Configurações de IDE / Editor
+# Configurações de IDE
 .vscode/
 .idea/
-
-# Arquivos compactados e backups
-*.zip
-*.rar
-*.7z
-*.bak
-*.tmp
 
 # Arquivos de ambiente
 .env
 .env.*
 
-# Build / dist (se futuramente houver)
+# Builds (se futuramente houver)
 dist/
 build/
+
+# Arquivos temporários / backup
+*.tmp
+*.bak
+*.swp
+
+# Compactados
+*.zip
+*.rar
+*.7z

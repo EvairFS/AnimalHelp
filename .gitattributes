@@ -1,27 +1,29 @@
-# Normaliza finais de linha automaticamente
+# Normalização automática
 * text=auto
 
-# Arquivos de código - usar LF
-*.html  text eol=lf
-*.css   text eol=lf
-*.js    text eol=lf
-*.json  text eol=lf
-*.md    text eol=lf
+# Arquivos de código (usar LF)
+*.html text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
 
-# Scripts
-*.sh    text eol=lf
+# Imagens
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.svg  binary
+*.webp binary
+*.ico  binary
 
-# Arquivos Windows batch
-*.bat   text eol=crlf
+# Fontes
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.otf   binary
 
-# Binários (não tentar converter)
-*.png   binary
-*.jpg   binary
-*.jpeg  binary
-*.gif   binary
-*.ico   binary
-*.svg   binary
-*.zip   binary
-*.rar   binary
-*.7z    binary
-*.pdf   binary
+# Compactados
+*.zip binary
+*.rar binary
+*.7z  binary
