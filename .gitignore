@@ -1,0 +1,28 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Pastas de dependências (caso use futuramente)
+node_modules/
+
+# Configurações de IDE / Editor
+.vscode/
+.idea/
+
+# Arquivos compactados e backups
+*.zip
+*.rar
+*.7z
+*.bak
+*.tmp
+
+# Arquivos de ambiente
+.env
+.env.*
+
+# Build / dist (se futuramente houver)
+dist/
+build/
