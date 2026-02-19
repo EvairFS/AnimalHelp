@@ -421,82 +421,9 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
     <div class="section-title">
       <h2>Nossa Equipe</h2>
       <p>Nossa equipe é formada por veterinários experientes, assistentes cuidadosos e profissionais especializados, prontos para oferecer o melhor atendimento em todas as fases da vida do seu companheiro. Cada membro do nosso time compartilha um propósito: cuidar dos seus pets como se fossem nossos, com carinho, respeito e muita atenção aos detalhes.</p>
-    </div>
 
-    <div class="row">
-      <!-- Primeiro funcionário -->
-      <div class="col-lg-6">
-        <div class="member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-1.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Emily Siqueira</h4>
-            <span>Gerente</span>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Segundo funcionário -->
-      <div class="col-lg-6 mt-4 mt-lg-0">
-        <div class="member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-2.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Dr Nilo</h4>
-            <span>Clínico Geral</span>
-            <p></p>
-            <div class="social"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Terceiro funcionário -->
-      <div class="col-lg-6 mt-4">
-        <div class="member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-3.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Dra Aline</h4>
-            <span>Clínica Geral</span>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Quarto funcionário -->
-      <div class="col-lg-6 mt-4">
-        <div class="member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-4.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Dr Andrew</h4>
-            <span>Clínico Geral</span>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-6 mt-4">
-        <div class="member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-5.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Dra Fabiula</h4>
-            <span>Clínica Geral</span>
-            <p></p>
-          </div>
-        </div>
-      </div>
-    
-      <div class="col-lg-6 mt-4">
-        <div class="member d-flex align-items-start">
-          <div class="pic"><img src="assets/img/doctors/doctors-6.jpg" class="img-fluid" alt=""></div>
-          <div class="member-info">
-            <h4>Dra Fernanda</h4>
-            <span>Cirurgiã Tecidos moles e Clínica Geral</span>
-            <p></p>
-          </div>
-        </div>
-      </div>
-
-
-
+      <div class="row" id="lista-funcionarios"></div>
+      
 <!-- End Doctors Section -->
 
     <!-- ======= Frequently Asked Questions Section ======= -->
@@ -805,6 +732,43 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+
+  <!-- Script dos funcionarios -->
+<script>
+async function carregarFuncionarios() {
+  const res = await fetch("http://localhost:3000/funcionarios");
+  const funcionarios = await res.json();
+
+  const container = document.getElementById("lista-funcionarios");
+  container.innerHTML = "";
+
+  funcionarios.forEach(f => {
+    container.innerHTML += `
+      <div class="col-lg-6 mt-4">
+        <div class="member d-flex align-items-start">
+          <div class="pic">
+            <img src="http://localhost:3000/uploads/${f.foto}" class="img-fluid">
+          </div>
+          <div class="member-info">
+            <h4>${f.nome}</h4>
+            <span>${f.cargo}</span>
+            <button onclick="deletar(${f.id})">Excluir</button>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+async function deletar(id) {
+  await fetch(`http://localhost:3000/funcionarios/${id}`, {
+    method: "DELETE"
+  });
+  carregarFuncionarios();
+}
+
+carregarFuncionarios();
+</script>
 
 </body>
 
