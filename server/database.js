@@ -1,18 +1,18 @@
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-  host: 'localhost',
+  host: 'localhost',      // ou 127.0.0.1
   user: 'root',
-  password: '', // coloque sua senha se tiver
-  database: 'animalhelp'
+  password: '',  // senha correta
+  database: 'animalhelp'       // nome do seu banco
 });
 
-connection.connect((err) => {
+connection.connect(err => {
   if (err) {
-    console.error('Erro ao conectar:', err);
-  } else {
-    console.log('MySQL conectado');
+    console.error('Erro ao conectar no MySQL:', err);
+    return;
   }
+  console.log('MySQL conectado');
 });
 
 module.exports = connection;

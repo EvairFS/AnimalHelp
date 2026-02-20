@@ -2,8 +2,12 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const connection = require('../database');
-
 router.post('/login', (req, res) => {
+
+  if (!req.body) {
+    return res.status(400).json({ erro: "Body não enviado" });
+  }
+
   const { email, senha } = req.body;
 
   if (!email || !senha) {
@@ -24,8 +28,8 @@ router.post('/login', (req, res) => {
 
       const token = jwt.sign(
         { id: usuario.id, email: usuario.email },
-        'segredo',
-        { expiresIn: '1h' }
+        "segredo",
+        { expiresIn: "1h" }
       );
 
       res.json({ token });

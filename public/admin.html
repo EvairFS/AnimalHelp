@@ -1,9 +1,150 @@
-const token = localStorage.getItem("token");
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>ADM - AnimalHelp</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    input, button { margin: 5px; }
+    .funcionario { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    img { max-width: 100px; display: block; margin-bottom: 5px; }
+    #funcionarioDiv { display: none; }
+  </style>
+</head>
+<body>
 
-await fetch("http://localhost:3000/funcionarios", {
-  method: "POST",
-  headers: {
-    "Authorization": token
-  },
-  body: formData
+<h1>Login ADM</h1>
+<div id="loginDiv">
+  <input type="email" id="email" placeholder="E-mail">
+  <input type="password" id="senha" placeholder="Senha">
+  <button onclick="login()">Entrar</button>
+</div>
+
+<div id="funcionarioDiv">
+  <h1>Funcionários</h1>
+
+  <h2>Criar / Editar funcionário</h2>
+  <form id="form-funcionario">
+    <input type="text" id="nome" placeholder="Nome" required>
+    <input type="text" id="cargo" placeholder="Cargo" required>
+    <input type="file" id="foto">
+    <button type="submit">Salvar</button>
+  </form>
+
+  <h2>Lista de Funcionários</h2>
+  <div id="lista-funcionarios"></div>
+</div>
+
+<script>
+let token = localStorage.getItem("token");
+let editarId = null;
+
+
+// -----------------------------
+// LISTAR FUNCIONÁRIOS
+// -----------------------------
+function listarFuncionarios() {
+  fetch("http://localhost:3000/funcionarios", {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then(res => res.json())
+  .then(data => {
+    const lista = document.getElementById("lista-funcionarios");
+    lista.innerHTML = "";
+    data.forEach(f => {
+      const div = document.createElement("div");
+      div.className = "funcionario";
+      div.innerHTML = `
+        <img src="http://localhost:3000/uploads/${f.foto}" alt="Foto">
+        <h3>${f.nome}</h3>
+        <p>${f.cargo}</p>
+        <button onclick="prepararEdicao(${f.id})">Editar</button>
+        <button onclick="deletarFuncionario(${f.id})">Deletar</button>
+      `;
+      lista.appendChild(div);
+    });
+  })
+  .catch(err => console.error(err));
+}
+
+// -----------------------------
+// CRIAR / ATUALIZAR FUNCIONÁRIO
+// -----------------------------
+document.getElementById("form-funcionario").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const nome = document.getElementById("nome").value;
+  const cargo = document.getElementById("cargo").value;
+  const foto = document.getElementById("foto").files[0];
+
+  if (!nome || !cargo) return alert("Preencha todos os campos");
+
+  const formData = new FormData();
+  formData.append("nome", nome);
+  formData.append("cargo", cargo);
+  if (foto) formData.append("foto", foto);
+
+  let url = "http://localhost:3000/funcionarios";
+  let method = "POST";
+  if (editarId) {
+    url += `/${editarId}`;
+    method = "PUT";
+  }
+
+  fetch(url, {
+    method,
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(() => {
+    editarId = null;
+    document.getElementById("form-funcionario").reset();
+    listarFuncionarios();
+  })
+  .catch(err => console.error(err));
 });
+
+// -----------------------------
+// PREPARAR EDIÇÃO
+// -----------------------------
+function prepararEdicao(id) {
+  fetch("http://localhost:3000/funcionarios", {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then(res => res.json())
+  .then(data => {
+    const f = data.find(f => f.id === id);
+    if (!f) return alert("Funcionário não encontrado");
+    document.getElementById("nome").value = f.nome;
+    document.getElementById("cargo").value = f.cargo;
+    editarId = f.id;
+  });
+}
+
+// -----------------------------
+// DELETAR FUNCIONÁRIO
+// -----------------------------
+function deletarFuncionario(id) {
+  if (!confirm("Deseja realmente deletar este funcionário?")) return;
+  fetch(`http://localhost:3000/funcionarios/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` }
+  })
+  .then(res => res.json())
+  .then(() => listarFuncionarios())
+  .catch(err => console.error(err));
+}
+
+// -----------------------------
+// SE TOKEN EXISTIR, PULA LOGIN
+// -----------------------------
+if (token) {
+  document.getElementById("loginDiv").style.display = "none";
+  document.getElementById("funcionarioDiv").style.display = "block";
+  listarFuncionarios();
+}
+</script>
+
+</body>
+</html>
