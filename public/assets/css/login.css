@@ -104,7 +104,7 @@ button{
 }
 
 button:hover{
-    background-color: #ca00c0;
+    background-color: #196eb4;
 
 }
 
@@ -146,6 +146,29 @@ article > div > h2{
     
 }
 
+/* Estilo de erro para inputs */
+.input-erro {
+  border: 2px solid red;
+  box-shadow: 0 0 5px red;
+  animation: shake 0.3s;
+}
+
+/* Shake animation */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* Mensagem de erro com text-shadow */
+#erro {
+  color: rgb(226, 78, 78);
+  font-weight: bold;
+  text-shadow: 1px 1px 2px black;
+}
+
 @media screen and (max-width: 600px){
     .container-imagem{
         display: none;
@@ -173,5 +196,6 @@ article > div > h2{
     .container-senha > a{
         margin-top: 10px;
     }
+    
 
 }

@@ -414,7 +414,7 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
       </div>
     </section><!-- End Departments Section -->
 
-<!-- ======= Doctors Section ======= -->
+<!-- ======= Começo seção de equipe ======= -->
 <section id="doctors" class="doctors">
   <div class="container">
 
@@ -422,11 +422,11 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
       <h2>Nossa Equipe</h2>
       <p>Nossa equipe é formada por veterinários experientes, assistentes cuidadosos e profissionais especializados, prontos para oferecer o melhor atendimento em todas as fases da vida do seu companheiro. Cada membro do nosso time compartilha um propósito: cuidar dos seus pets como se fossem nossos, com carinho, respeito e muita atenção aos detalhes.</p>
 
-      <div class="row" id="lista-funcionarios"></div>
+      <div id="lista-funcionarios" class="container-funcionarios"></div>
       
-<!-- End Doctors Section -->
+<!-- Fim seção de Equipe -->
 
-    <!-- ======= Frequently Asked Questions Section ======= -->
+    <!-- ======= FAQ ======= -->
     <section id="faq" class="faq section-bg">
       <div class="container">
 
@@ -630,8 +630,6 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
         </a>
         <br>
         <br>
-        <a href="https://maps.app.goo.gl/JVArNtJbTnXS9u5A8" id="Map1">
-          Unidade 2 - Av. Tefé, 516 - Cachoeirinha
         </a>
       </div>
     </div>
@@ -722,42 +720,73 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
   <!-- Script dos funcionarios -->
 <script>
 async function carregarFuncionarios() {
-  const res = await fetch("http://localhost:3000/funcionarios");
-  const funcionarios = await res.json();
+  try {
+    const res = await fetch("http://localhost:3000/funcionarios");
+    const funcionarios = await res.json();
 
-  const container = document.getElementById("lista-funcionarios");
-  container.innerHTML = "";
+    const container = document.getElementById("lista-funcionarios");
+    if (!container) return;
+    
+    container.innerHTML = ""; 
 
-  funcionarios.forEach(f => {
-    container.innerHTML += `
-      <div class="col-lg-6 mt-4">
-        <div class="member d-flex align-items-start">
-          <div class="pic">
-            <img src="http://localhost:3000/uploads/${f.foto}" class="img-fluid">
-          </div>
-          <div class="member-info">
-            <h4>${f.nome}</h4>
-            <span>${f.cargo}</span>
-            <button onclick="deletar(${f.id})">Excluir</button>
-          </div>
+    funcionarios.forEach(f => {
+      const div = document.createElement("div");
+      div.className = "card-funcionario animate__animated animate__fadeInUp"; // Adicionei animação do seu template
+      
+      div.innerHTML = `
+        <img src="http://localhost:3000/uploads/${f.foto}" alt="Foto de ${f.nome}">
+        <div class="card-info">
+          <h3>${f.nome}</h3>
+          <p>${f.cargo}</p>
         </div>
-      </div>
-    `;
-  });
+      `;
+      container.appendChild(div);
+    });
+  } catch (err) {
+    console.error("Erro ao carregar equipe:", err);
+  }
 }
 
-async function deletar(id) {
-  await fetch(`http://localhost:3000/funcionarios/${id}`, {
-    method: "DELETE"
-  });
-  carregarFuncionarios();
-}
-
-carregarFuncionarios();
+// Executa ao carregar a página
+document.addEventListener("DOMContentLoaded", carregarFuncionarios);
 </script>
 
-<script src="js/equipe.js"></script>
+<script>
+document.addEventListener('keydown', function(event) {
+  if (event.shiftKey && event.key.toLowerCase() === 'e') {
+    // Criar alerta visual temporário
+    const aviso = document.createElement('div');
+    aviso.textContent = "🔐 Abrindo tela de login...";
+    aviso.style.position = 'fixed';
+    aviso.style.top = '20px';
+    aviso.style.left = '50%';
+    aviso.style.transform = 'translateX(-50%)';
+    aviso.style.backgroundColor = '#ff4d4d';
+    aviso.style.color = '#fff';
+    aviso.style.fontWeight = 'bold';
+    aviso.style.padding = '15px 25px';
+    aviso.style.borderRadius = '10px';
+    aviso.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
+    aviso.style.zIndex = '10000';
+    aviso.style.textAlign = 'center';
+    aviso.style.opacity = '0';
+    aviso.style.transition = 'opacity 0.3s ease';
+    document.body.appendChild(aviso);
+
+    // Fade in
+    setTimeout(() => { aviso.style.opacity = '1'; }, 10);
+
+    // Fade out e redirecionar
+    setTimeout(() => {
+      aviso.style.opacity = '0';
+      setTimeout(() => {
+        aviso.remove();
+        window.location.href = '/login';
+      }, 300);
+    }, 1200); // mostra por 1,2s
+  }
+});
+</script>
 
 </body>
-
 </html>

@@ -1853,3 +1853,56 @@ section {
     font-size: 20px;
   }
 }
+.container-funcionarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  padding: 40px 0;
+}
+
+/* Card com foco na imagem */
+.card-funcionario {
+  background: #fff;
+  border-radius: 20px; /* Bordas mais arredondadas */
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  border: none; /* Removida a borda para um look mais clean */
+}
+
+.card-funcionario:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+/* IMAGEM EM DESTAQUE (VERTICAL) */
+.card-funcionario img {
+  width: 100%;
+  height: 380px; /* Altura maior para o efeito vertical */
+  object-fit: cover; /* Garante que a foto preencha o espaço sem achatar */
+  object-position: center top; /* Foca no rosto/topo da foto */
+}
+
+/* Info do funcionário sobreposta ou abaixo */
+.card-info {
+  padding: 20px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.card-info h3 {
+  font-size: 1.3rem;
+  color: #0c8dbc;
+  margin: 0;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.card-info p {
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  margin-top: 5px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}

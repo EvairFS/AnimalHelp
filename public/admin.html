@@ -2,86 +2,228 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>ADM - AnimalHelp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo - AnimalHelp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    input, button { margin: 5px; }
-    .funcionario { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
-    img { max-width: 100px; display: block; margin-bottom: 5px; }
-    #funcionarioDiv { display: none; }
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg: #f8fafc;
+      --text-main: #1e293b;
+      --white: #ffffff;
+      --border: #e2e8f0;
+      --danger: #ef4444;
+      --success: #22c55e;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); }
+
+    /* Login Screen */
+    .login-container {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    .login-card h1 { margin-bottom: 1.5rem; font-weight: 600; color: var(--primary); }
+
+    /* Dashboard Layout */
+    #funcionarioDiv { display: none; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+    
+    header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 2rem;
+    }
+
+    /* Form Card */
+    .card {
+      background: var(--white);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    /* Inputs & Buttons */
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      outline: none;
+      transition: border 0.2s;
+    }
+    input:focus { border-color: var(--primary); }
+    
+    button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-outline { background: transparent; border: 1px solid var(--border); }
+    .btn-danger { color: var(--danger); background: #fee2e2; padding: 0.5rem; }
+    .btn-edit { color: var(--primary); background: #e0e7ff; padding: 0.5rem; margin-right: 5px; }
+
+    /* Table Design */
+    table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 12px; overflow: hidden; }
+    th { background: #f1f5f9; text-align: left; padding: 1rem; font-size: 0.85rem; text-transform: uppercase; color: #64748b; }
+    td { padding: 1rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    .user-info { display: flex; align-items: center; gap: 12px; }
+    .avatar { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; background: #eee; }
+    
+    .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.75rem; background: #f1f5f9; font-weight: 600; }
+
+    @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
 
-<h1>Login ADM</h1>
-<div id="loginDiv">
-  <input type="email" id="email" placeholder="E-mail">
-  <input type="password" id="senha" placeholder="Senha">
-  <button onclick="login()">Entrar</button>
+<div id="loginDiv" class="login-container">
+  <div class="login-card">
+    <h1><i class="fas fa-paw"></i> AnimalHelp</h1>
+    <p style="color: #64748b; margin-bottom: 1.5rem;">Acesso Administrativo</p>
+    <input type="email" id="email" placeholder="E-mail" style="margin-bottom: 10px;">
+    <input type="password" id="senha" placeholder="Senha" style="margin-bottom: 20px;">
+    <button class="btn-primary" style="width: 100%;" onclick="login()">Entrar no Sistema</button>
+  </div>
 </div>
 
 <div id="funcionarioDiv">
-  <h1>Funcionários</h1>
+  <header>
+    <div>
+      <h1 style="font-size: 1.8rem;">Dashboard de Funcionários</h1>
+      <p style="color: #64748b;">Gerencie sua equipe AnimalHelp</p>
+    </div>
+    <button class="btn-outline" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+  </header>
 
-  <h2>Criar / Editar funcionário</h2>
-  <form id="form-funcionario">
-    <input type="text" id="nome" placeholder="Nome" required>
-    <input type="text" id="cargo" placeholder="Cargo" required>
-    <input type="file" id="foto">
-    <button type="submit">Salvar</button>
-  </form>
+  <div class="card">
+    <h3 id="formTitle" style="margin-bottom: 1rem; font-size: 1rem;">Adicionar Novo Funcionário</h3>
+    <form id="form-funcionario" class="form-grid">
+      <div>
+        <label style="font-size: 0.8rem; display:block; margin-bottom:4px">Nome Completo</label>
+        <input type="text" id="nome" placeholder="Ex: João Silva" required>
+      </div>
+      <div>
+        <label style="font-size: 0.8rem; display:block; margin-bottom:4px">Cargo / Função</label>
+        <input type="text" id="cargo" placeholder="Ex: Veterinário" required>
+      </div>
+      <div>
+        <label style="font-size: 0.8rem; display:block; margin-bottom:4px">Foto</label>
+        <input type="file" id="foto" style="padding: 5px; font-size: 0.8rem;">
+      </div>
+      <button type="submit" class="btn-primary" id="btnSalvar">Salvar</button>
+      <button type="button" class="btn-outline" id="btnCancelar" style="display: none;" onclick="resetarForm()">Cancelar</button>
+    </form>
+  </div>
 
-  <h2>Lista de Funcionários</h2>
-  <div id="lista-funcionarios"></div>
+  <div style="overflow-x: auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Funcionário</th>
+          <th>Cargo</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="lista-funcionarios">
+        </tbody>
+    </table>
+  </div>
 </div>
 
 <script>
 let token = localStorage.getItem("token");
 let editarId = null;
 
+// Função de Login (Faltava no seu código original)
+async function login() {
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
-// -----------------------------
-// LISTAR FUNCIONÁRIOS
-// -----------------------------
+  try {
+    const res = await fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha })
+    });
+    const data = await res.json();
+    
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+      window.location.reload();
+    } else {
+      alert(data.erro || "Falha no login");
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  window.location.reload();
+}
+
 function listarFuncionarios() {
-  fetch("http://localhost:3000/funcionarios", {
-    headers: { Authorization: `Bearer ${token}` }
-  })
+  fetch("http://localhost:3000/funcionarios")
   .then(res => res.json())
   .then(data => {
     const lista = document.getElementById("lista-funcionarios");
     lista.innerHTML = "";
     data.forEach(f => {
-      const div = document.createElement("div");
-      div.className = "funcionario";
-      div.innerHTML = `
-        <img src="http://localhost:3000/uploads/${f.foto}" alt="Foto">
-        <h3>${f.nome}</h3>
-        <p>${f.cargo}</p>
-        <button onclick="prepararEdicao(${f.id})">Editar</button>
-        <button onclick="deletarFuncionario(${f.id})">Deletar</button>
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>
+          <div class="user-info">
+            <img class="avatar" src="http://localhost:3000/uploads/${f.foto}" onerror="this.src='https://ui-avatars.com/api/?name=${f.nome}'">
+            <span style="font-weight: 600;">${f.nome}</span>
+          </div>
+        </td>
+        <td><span class="badge">${f.cargo}</span></td>
+        <td>
+          <button class="btn-edit" onclick="prepararEdicao(${f.id})" title="Editar"><i class="fas fa-edit"></i></button>
+          <button class="btn-danger" onclick="deletarFuncionario(${f.id})" title="Deletar"><i class="fas fa-trash"></i></button>
+        </td>
       `;
-      lista.appendChild(div);
+      lista.appendChild(row);
     });
-  })
-  .catch(err => console.error(err));
+  });
 }
 
-// -----------------------------
-// CRIAR / ATUALIZAR FUNCIONÁRIO
-// -----------------------------
 document.getElementById("form-funcionario").addEventListener("submit", e => {
   e.preventDefault();
-
-  const nome = document.getElementById("nome").value;
-  const cargo = document.getElementById("cargo").value;
-  const foto = document.getElementById("foto").files[0];
-
-  if (!nome || !cargo) return alert("Preencha todos os campos");
-
   const formData = new FormData();
-  formData.append("nome", nome);
-  formData.append("cargo", cargo);
+  formData.append("nome", document.getElementById("nome").value);
+  formData.append("cargo", document.getElementById("cargo").value);
+  const foto = document.getElementById("foto").files[0];
   if (foto) formData.append("foto", foto);
 
   let url = "http://localhost:3000/funcionarios";
@@ -96,55 +238,47 @@ document.getElementById("form-funcionario").addEventListener("submit", e => {
     headers: { Authorization: `Bearer ${token}` },
     body: formData
   })
-  .then(res => res.json())
   .then(() => {
-    editarId = null;
-    document.getElementById("form-funcionario").reset();
+    resetarForm();
     listarFuncionarios();
-  })
-  .catch(err => console.error(err));
+  });
 });
 
-// -----------------------------
-// PREPARAR EDIÇÃO
-// -----------------------------
 function prepararEdicao(id) {
-  fetch("http://localhost:3000/funcionarios", {
-    headers: { Authorization: `Bearer ${token}` }
-  })
+  fetch("http://localhost:3000/funcionarios")
   .then(res => res.json())
   .then(data => {
     const f = data.find(f => f.id === id);
-    if (!f) return alert("Funcionário não encontrado");
     document.getElementById("nome").value = f.nome;
     document.getElementById("cargo").value = f.cargo;
+    document.getElementById("formTitle").innerText = "Editando Funcionário";
+    document.getElementById("btnSalvar").innerText = "Atualizar";
+    document.getElementById("btnCancelar").style.display = "block";
     editarId = f.id;
   });
 }
 
-// -----------------------------
-// DELETAR FUNCIONÁRIO
-// -----------------------------
+function resetarForm() {
+  editarId = null;
+  document.getElementById("form-funcionario").reset();
+  document.getElementById("formTitle").innerText = "Adicionar Novo Funcionário";
+  document.getElementById("btnSalvar").innerText = "Salvar";
+  document.getElementById("btnCancelar").style.display = "none";
+}
+
 function deletarFuncionario(id) {
-  if (!confirm("Deseja realmente deletar este funcionário?")) return;
+  if (!confirm("Remover este funcionário?")) return;
   fetch(`http://localhost:3000/funcionarios/${id}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` }
-  })
-  .then(res => res.json())
-  .then(() => listarFuncionarios())
-  .catch(err => console.error(err));
+  }).then(() => listarFuncionarios());
 }
 
-// -----------------------------
-// SE TOKEN EXISTIR, PULA LOGIN
-// -----------------------------
 if (token) {
   document.getElementById("loginDiv").style.display = "none";
   document.getElementById("funcionarioDiv").style.display = "block";
   listarFuncionarios();
 }
 </script>
-
 </body>
 </html>

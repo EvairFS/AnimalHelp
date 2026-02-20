@@ -19,11 +19,11 @@
             </header>
             
             <main>
-                <label for="username">Email</label>
-                <input type="text" name="username" id="username" placeholder="@gmail.com">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" placeholder="@gmail.com" autocomplete="username" required>
             
                 <label for="password">Senha</label>
-                <input type="password" name="password" id="password" placeholder="••••••">
+                <input type="password" name="senha" id="senha" placeholder="••••••" autocomplete="current-password" required>
                 
                 <div class="container-senha">
                     
@@ -33,35 +33,65 @@
                     </div>
                                       
                 </div>
-            
-                <button>Entrar</button>
-    
-                        
+
+                <button type="button" onclick="login()">Entrar</button>
+                <p id="erro"></p>
+
             </main>
         </div>
     </section>
-<script>
-document.getElementById("loginForm").addEventListener("submit", async function(e){
-  e.preventDefault();
+ <script>
+function login() {
+  const emailEl = document.getElementById("email");
+  const senhaEl = document.getElementById("senha");
+  const erroEl = document.getElementById("erro");
+  erroEl.textContent = "";
 
-  const dados = {
-    email: this.email.value,
-    senha: this.senha.value
-  };
+  const email = emailEl.value;
+  const senha = senhaEl.value;
 
-  const res = await fetch("http://localhost:3000/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(dados)
-  });
-
-  const data = await res.json();
-
-  if (data.token) {
-    localStorage.setItem("token", data.token);
-    window.location.href = "admin.html";
+  if (!email || !senha) {
+    erroEl.textContent = "Preencha email e senha";
+    if (!email) {
+      emailEl.classList.add("input-erro");
+      setTimeout(() => emailEl.classList.remove("input-erro"), 500);
+    }
+    if (!senha) {
+      senhaEl.classList.add("input-erro");
+      setTimeout(() => senhaEl.classList.remove("input-erro"), 500);
+    }
+    return;
   }
-});
-</script>
+
+    fetch("http://localhost:3000/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha })
+    }) 
+  .then(res => res.json())
+  .then(data => {
+      const emailEl = document.getElementById("email");
+      const senhaEl = document.getElementById("senha");
+
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "/admin.html"; 
+      } else if (data.erro) {
+        document.getElementById("erro").textContent = data.erro;
+
+        // Shake visual e borda vermelha
+        if (data.erro.toLowerCase().includes("senha")) {
+          senhaEl.classList.add("input-erro");
+          setTimeout(() => senhaEl.classList.remove("input-erro"), 500);
+        } else if (data.erro.toLowerCase().includes("usuário")) {
+          emailEl.classList.add("input-erro");
+          setTimeout(() => emailEl.classList.remove("input-erro"), 500);
+        }
+      } else {
+        document.getElementById("erro").textContent = "Erro desconhecido";
+      }
+  })
+};
+  </script>
 </body>
 </html>

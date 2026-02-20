@@ -56,28 +56,34 @@ app.get('/login', (req, res) => {
 });
 
 // =====================
-// LOGIN (exemplo admin)
+// REGISTRO ADMIN
 // =====================
-let usuarios = [
-  {
-    id: 1,
-    email: "admin@admin.com",
-    senha: bcrypt.hashSync("123456", 8) // senha: 123456
-  }
-];
 
+
+// Rota de login
 app.post('/auth/login', (req, res) => {
   const { email, senha } = req.body;
   if (!email || !senha) return res.status(400).json({ erro: "Email e senha obrigatórios" });
 
-  const usuario = usuarios.find(u => u.email === email);
-  if (!usuario) return res.status(401).json({ erro: "Usuário não encontrado" });
+  connection.query("SELECT * FROM usuarios WHERE email = ?", [email], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.length === 0) return res.status(401).json({ erro: "Usuário não encontrado" });
 
-  const valido = bcrypt.compareSync(senha, usuario.senha);
-  if (!valido) return res.status(401).json({ erro: "Senha incorreta" });
+    const usuario = results[0];
+    const valido = bcrypt.compareSync(senha, usuario.senha);
+    if (!valido) return res.status(401).json({ erro: "Senha incorreta" });
 
-  const token = jwt.sign({ id: usuario.id, email: usuario.email }, SECRET, { expiresIn: "1h" });
-  res.json({ token });
+    const token = jwt.sign({ id: usuario.id, email: usuario.email }, SECRET, { expiresIn: "1h" });
+    res.json({ token });
+  });
+});
+
+
+// =====================
+// ADM ROTA
+// =====================
+app.get('/admin.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/admin.html'));
 });
 
 // =====================
@@ -135,6 +141,31 @@ app.delete("/funcionarios/:id", autenticarToken, (req, res) => {
   connection.query("DELETE FROM funcionarios WHERE id = ?", [id], (err, result) => {
     if (err) return res.status(500).json(err);
     res.json({ mensagem: "Funcionário removido", affectedRows: result.affectedRows });
+  });
+});
+
+// REGISTRO
+app.post('/auth/register', (req, res) => {
+  const { email, senha, nome } = req.body;
+  if (!email || !senha) return res.status(400).json({ erro: "Email e senha obrigatórios" });
+
+  // Verifica se já existe
+  connection.query("SELECT * FROM usuarios WHERE email = ?", [email], (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.length > 0) return res.status(400).json({ erro: "Usuário já existe" });
+
+    // Hash da senha
+    const hashSenha = bcrypt.hashSync(senha, 8);
+
+    // Insere no banco
+    connection.query(
+      "INSERT INTO usuarios (email, senha, nome) VALUES (?, ?, ?)",
+      [email, hashSenha, nome || ""],
+      (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.json({ id: result.insertId, email, nome });
+      }
+    );
   });
 });
 
