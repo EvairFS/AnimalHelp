@@ -1,0 +1,9 @@
+const token = localStorage.getItem("token");
+
+await fetch("http://localhost:3000/funcionarios", {
+  method: "POST",
+  headers: {
+    "Authorization": token
+  },
+  body: formData
+});
