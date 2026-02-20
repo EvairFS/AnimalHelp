@@ -6,17 +6,23 @@ const bcrypt = require("bcryptjs");
 const funcionariosRoutes = require('./routes/funcionarios');
 const cors = require('cors');
 const path = require('path');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 const SECRET = "segredo_super_forte";
 require('./database');
 const connection = require('./database')
 
+
 app.use(express.json());
 app.use(cors());
 app.use('/funcionarios', funcionariosRoutes);
 app.use('/uploads', express.static('uploads'));
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/auth', authRoutes);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 /* ==============================
    CRIAR PASTA UPLOAD SE NÃO EXISTIR
