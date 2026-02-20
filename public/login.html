@@ -1,9 +1,45 @@
-<form id="loginForm">
-  <input type="email" name="email" placeholder="Email" required>
-  <input type="password" name="senha" placeholder="Senha" required>
-  <button type="submit">Entrar</button>
-</form>
-
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="assets/css/login.css" rel="stylesheet">
+    <title>Login AnimalHelp24h</title>
+</head>
+<body>
+    <section> 
+        <div class="container-imagem">
+            <img src="assets/img/login.png" alt="Imagem de Login">
+        </div>
+        
+        
+        <div class="container-login">
+            <header>
+                <h1>Login</h1>
+            </header>
+            
+            <main>
+                <label for="username">Email</label>
+                <input type="text" name="username" id="username" placeholder="@gmail.com">
+            
+                <label for="password">Senha</label>
+                <input type="password" name="password" id="password" placeholder="••••••">
+                
+                <div class="container-senha">
+                    
+                    <div>
+                        <input type="checkbox" name="remember" id="remember">
+                        <label>Remember</label>
+                    </div>
+                                      
+                </div>
+            
+                <button>Entrar</button>
+    
+                        
+            </main>
+        </div>
+    </section>
 <script>
 document.getElementById("loginForm").addEventListener("submit", async function(e){
   e.preventDefault();
@@ -27,3 +63,5 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
   }
 });
 </script>
+</body>
+</html>
