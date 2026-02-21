@@ -28,7 +28,7 @@ app.use(
         scriptSrc: ["'self'", "'unsafe-inline'"],
         styleSrc: ["'self'", "'unsafe-inline'"],
         imgSrc: ["'self'", "data:", "https:"],
-        connectSrc: ["'self'", "https://animalhelph24.com.br"]
+        connectSrc: ["'self'", "https://animalhelp24h.com.br","https://animalhelp.onrender.com"]
       }
     }
   })
