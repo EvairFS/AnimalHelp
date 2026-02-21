@@ -5,17 +5,26 @@ const jwt = require('jsonwebtoken');
 const connection = require('../database');
 
 // =====================
-// Middleware JWT
+// Middleware JWT (Versão Corrigida)
 // =====================
 function autenticarToken(req, res, next) {
-  const token = req.headers.authorization;
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
+  // 1. Verifica se o header existe
+  if (!authHeader) {
     return res.status(403).json({ erro: "Acesso negado" });
   }
 
+  // 2. Separa a palavra "Bearer" do código do token
+  const token = authHeader.split(' ')[1]; 
+
+  if (!token) {
+    return res.status(401).json({ erro: "Token não encontrado" });
+  }
+
+  // 3. Usa a MESMA chave do login
   jwt.verify(token, 'segredo', (err, usuario) => {
-    if (err) return res.status(401).json({ erro: "Token inválido" });
+    if (err) return res.status(401).json({ erro: "Token inválido ou expirado" });
     req.usuario = usuario;
     next();
   });

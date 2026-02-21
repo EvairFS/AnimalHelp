@@ -1,9 +1,8 @@
-
 (function() {
   "use strict";
 
   /**
-   * Easy selector helper function
+   * HELPERS: Funções auxiliares para facilitar a seleção de elementos e eventos
    */
   const select = (el, all = false) => {
     el = el.trim()
@@ -14,9 +13,6 @@
     }
   }
 
-  /**
-   * Easy event listener function
-   */
   const on = (type, el, listener, all = false) => {
     let selectEl = select(el, all)
     if (selectEl) {
@@ -28,15 +24,19 @@
     }
   }
 
-  /**
-   * Easy on scroll event listener 
-   */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
   }
 
   /**
-   * Navbar links active state on scroll
+   * CONFIGURAÇÃO DE AMBIENTE: Alterna entre Localhost e Servidor Real
+   */
+  const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? "http://localhost:3000"
+    : "https://animalhelp24h.com.br/"; // <-- URL real
+
+  /**
+   * NAVBAR: Ativa o link conforme a seção visível no scroll
    */
   let navbarlinks = select('#navbar .scrollto', true)
   const navbarlinksActive = () => {
@@ -56,12 +56,11 @@
   onscroll(document, navbarlinksActive)
 
   /**
-   * Scrolls to an element with header offset
+   * SCROLL: Rolagem suave com offset para o header fixo
    */
   const scrollto = (el) => {
     let header = select('#header')
     let offset = header.offsetHeight
-
     let elementPos = select(el).offsetTop
     window.scrollTo({
       top: elementPos - offset,
@@ -70,7 +69,7 @@
   }
 
   /**
-   * Toggle .header-scrolled class to #header when page is scrolled
+   * HEADER: Adiciona classe ao rolar a página
    */
   let selectHeader = select('#header')
   let selectTopbar = select('#topbar')
@@ -78,14 +77,10 @@
     const headerScrolled = () => {
       if (window.scrollY > 100) {
         selectHeader.classList.add('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.add('topbar-scrolled')
-        }
+        if (selectTopbar) selectTopbar.classList.add('topbar-scrolled')
       } else {
         selectHeader.classList.remove('header-scrolled')
-        if (selectTopbar) {
-          selectTopbar.classList.remove('topbar-scrolled')
-        }
+        if (selectTopbar) selectTopbar.classList.remove('topbar-scrolled')
       }
     }
     window.addEventListener('load', headerScrolled)
@@ -93,7 +88,7 @@
   }
 
   /**
-   * Back to top button
+   * BOTÃO VOLTAR AO TOPO
    */
   let backtotop = select('.back-to-top')
   if (backtotop) {
@@ -109,7 +104,7 @@
   }
 
   /**
-   * Mobile nav toggle
+   * MENU MOBILE
    */
   on('click', '.mobile-nav-toggle', function(e) {
     select('#navbar').classList.toggle('navbar-mobile')
@@ -117,9 +112,6 @@
     this.classList.toggle('bi-x')
   })
 
-  /**
-   * Mobile nav dropdowns activate
-   */
   on('click', '.navbar .dropdown > a', function(e) {
     if (select('#navbar').classList.contains('navbar-mobile')) {
       e.preventDefault()
@@ -127,13 +119,9 @@
     }
   }, true)
 
-  /**
-   * Scrool with ofset on links with a class name .scrollto
-   */
   on('click', '.scrollto', function(e) {
     if (select(this.hash)) {
       e.preventDefault()
-
       let navbar = select('#navbar')
       if (navbar.classList.contains('navbar-mobile')) {
         navbar.classList.remove('navbar-mobile')
@@ -146,114 +134,113 @@
   }, true)
 
   /**
-   * Scroll with ofset on page load with hash links in the url
+   * INICIALIZAÇÃO DE PLUGINS (Lightbox, Swiper, Counter)
    */
   window.addEventListener('load', () => {
-    if (window.location.hash) {
-      if (select(window.location.hash)) {
-        scrollto(window.location.hash)
-      }
+    if (window.location.hash && select(window.location.hash)) {
+      scrollto(window.location.hash)
     }
+    // GLightbox
+    GLightbox({ selector: '.glightbox' });
+    GLightbox({ selector: '.galelry-lightbox' });
+    // PureCounter
+    if (typeof PureCounter !== 'undefined') new PureCounter();
+    
+    // Preloader
+    let preloader = select('#preloader');
+    if (preloader) preloader.remove();
   });
 
-  /**
-   * Preloader
-   */
-  let preloader = select('#preloader');
-  if (preloader) {
-    window.addEventListener('load', () => {
-      preloader.remove()
-    });
-  }
-
-  /**
-   * Initiate glightbox 
-   */
-  const glightbox = GLightbox({
-    selector: '.glightbox'
-  });
-
-  /**
-   * Initiate Gallery Lightbox 
-   */
-  const galelryLightbox = GLightbox({
-    selector: '.galelry-lightbox'
-  });
-
-  /**
-   * Testimonials slider
-   */
   new Swiper('.testimonials-slider', {
     speed: 600,
     loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
+    autoplay: { delay: 5000, disableOnInteraction: false },
     slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    },
+    pagination: { el: '.swiper-pagination', type: 'bullets', clickable: true },
     breakpoints: {
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 20
-      },
-
-      1200: {
-        slidesPerView: 2,
-        spaceBetween: 20
-      }
+      320: { slidesPerView: 1, spaceBetween: 20 },
+      1200: { slidesPerView: 2, spaceBetween: 20 }
     }
   });
-
-  document.addEventListener("scroll", function () {
-    const sections = document.querySelectorAll("section"); // Seleciona as seções
-    const navLinks = document.querySelectorAll(".navbar a"); // Seleciona os links do menu
-
-    const headerHeight = document.querySelector("#header").offsetHeight; // Altura do cabeçalho fixo
-    const scrollPosition = window.scrollY + headerHeight + 5; // Ajusta a posição de rolagem com o cabeçalho
-
-    let currentSection = ""; // Armazenará a seção ativa
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop - headerHeight; // Considera a altura do cabeçalho
-      const sectionBottom = sectionTop + section.offsetHeight; // Calcula o limite inferior da seção
-
-        // Verifica se está na seção atual
-      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-        currentSection = section.getAttribute("id"); // Pega o ID da seção visível
-      }
-   });
-
-      // Remove e adiciona a classe `active` conforme necessário
-  navLinks.forEach((link) => {
-    link.classList.remove("active"); // Remove a classe de todos os links
-    if (link.getAttribute("href").includes(currentSection)) {
-     link.classList.add("active"); // Adiciona a classe somente ao link correspondente
-    }
-  });
- });
-
-         // JavaScript para forçar abertura em nova aba
-  document.getElementById("whatsapp-link").addEventListener("click", function (event) {
-  event.preventDefault(); // Impede o comportamento padrão
-  window.open(this.href, "_blank"); // Força a abertura em nova aba
- });
-
-  document.querySelectorAll("#Map1, #Map2").forEach(function (link) {
-  link.addEventListener("click", function (event) {
-    event.preventDefault(); // Impede o comportamento padrão do link
-    window.open(this.href, "_blank"); // Força abertura em uma nova aba
-  });
-  });
-
 
   /**
-   * Initiate Pure Counter 
+   * LINKS EXTERNOS: WhatsApp e Mapas (Segurança contra erros)
    */
-  new PureCounter();
+  const whatsappLink = document.getElementById("whatsapp-link");
+  if (whatsappLink) {
+    whatsappLink.addEventListener("click", function(e) {
+      e.preventDefault();
+      window.open(this.href, "_blank");
+    });
+  }
 
-})()
+  on('click', '#Map1, #Map2', function(e) {
+    e.preventDefault();
+    window.open(this.href, "_blank");
+  }, true);
+
+  /**
+   * BACKEND: Carregamento de Equipe
+   */
+async function carregarIndex() {
+  // Bloco 1: Equipe
+  try {
+    const resFunc = await fetch(`${API_URL}/funcionarios`);
+    const gridEquipe = document.getElementById('grid-equipe');
+    if (resFunc.ok && gridEquipe) {
+      const funcionarios = await resFunc.json();
+      gridEquipe.innerHTML = funcionarios.map(medico => `
+        <div class="medico-card">
+          <img src="${API_URL}/uploads/${medico.foto || medico.arquivo}" alt="${medico.nome}">
+          <div class="medico-info">
+            <h3>${medico.nome}</h3>
+            <p>${medico.cargo}</p>
+          </div>
+        </div>`).join('');
+    }
+  } catch (err) { console.error("Erro na equipe:", err); }
+
+  // Bloco 2: Galeria
+  try {
+    const resGal = await fetch(`${API_URL}/galeria`);
+    const gridGaleria = document.getElementById('grid-galeria');
+    if (resGal.ok && gridGaleria) {
+      const galeria = await resGal.json();
+      gridGaleria.innerHTML = galeria.map(foto => `
+        <div class="galeria-card">
+          <div class="galeria-img-container">
+            <img src="${API_URL}/uploads/${foto.arquivo || foto.foto}" alt="${foto.titulo}">
+          </div>
+          <div class="galeria-info">
+            <h4>${foto.titulo || 'Animal Help'}</h4>
+          </div>
+        </div>`).join('');
+    }
+  } catch (err) { console.error("Erro na galeria:", err); }
+}
+
+  if (document.getElementById('grid-equipe') || document.getElementById('grid-galeria')) {
+    carregarIndex();
+  }
+  /**
+   * LOGIN: Atalho Shift + E
+   */
+  document.addEventListener('keydown', function(event) {
+    if (event.shiftKey && event.key.toLowerCase() === 'e') {
+      const aviso = document.createElement('div');
+      aviso.textContent = "🔐 Abrindo tela de login...";
+      Object.assign(aviso.style, {
+        position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
+        backgroundColor: '#ff4d4d', color: '#fff', padding: '15px 25px',
+        borderRadius: '10px', zIndex: '10000', opacity: '0', transition: 'opacity 0.3s'
+      });
+      document.body.appendChild(aviso);
+      setTimeout(() => aviso.style.opacity = '1', 10);
+      setTimeout(() => {
+        aviso.style.opacity = '0';
+        setTimeout(() => window.location.href = '/login.html', 300);
+      }, 1200);
+    }
+  });
+
+})();

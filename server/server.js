@@ -4,172 +4,106 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
-const connection = require('./database'); // sua conexão MySQL
+const connection = require('./database'); 
 const cors = require('cors');
+const rotaFuncionarios = require('./routes/funcionarios'); // Importando o router
+const helmet = require("helmet");
 
 const app = express();
-const SECRET = "segredo_super_forte";
+const SECRET = "segredo"; // Mesma SECRET do arquivo de rotas
 
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "http://localhost:3000"],
+        connectSrc: ["'self'", "http://localhost:3000"]
+      }
+    }
+  })
+);
+
+// Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 app.use('/uploads', express.static('uploads'));
+app.use(express.static(path.join(__dirname, '../public')));
 
-// =====================
-// Criar pasta uploads
-// =====================
-if (!fs.existsSync("uploads")) {
-  fs.mkdirSync("uploads");
-}
 
-// =====================
-// Configuração Multer
-// =====================
+// CONECTANDO O ROTEADOR DE FUNCIONARIOS
+// Isso substitui todas as rotas manuais de funcionários abaixo
+app.use('/funcionarios', rotaFuncionarios);
+
+// Criar pasta uploads se não existir
+if (!fs.existsSync("uploads")) { fs.mkdirSync("uploads"); }
+
+// Configuração Multer (usado aqui apenas para a Galeria)
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, "uploads/"),
   filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname)
 });
 const upload = multer({ storage });
 
-// =====================
-// Middleware JWT
-// =====================
+// Middleware JWT (necessário para a Galeria que ficou aqui)
 function autenticarToken(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader) return res.status(403).json({ erro: "Acesso negado" });
-
   const token = authHeader.split(' ')[1];
-  if (!token) return res.status(401).json({ erro: "Token mal formatado" });
-
   jwt.verify(token, SECRET, (err, usuario) => {
     if (err) return res.status(401).json({ erro: "Token inválido" });
     req.usuario = usuario;
     next();
   });
 }
-// =====================
-// Rota para a tela de Login
-// =====================
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/login.html'));
-});
 
 // =====================
-// REGISTRO ADMIN
+// ROTAS DE AUTENTICAÇÃO
 // =====================
-
-
-// Rota de login
 app.post('/auth/login', (req, res) => {
   const { email, senha } = req.body;
-  if (!email || !senha) return res.status(400).json({ erro: "Email e senha obrigatórios" });
-
   connection.query("SELECT * FROM usuarios WHERE email = ?", [email], (err, results) => {
     if (err) return res.status(500).json(err);
     if (results.length === 0) return res.status(401).json({ erro: "Usuário não encontrado" });
-
+    
     const usuario = results[0];
     const valido = bcrypt.compareSync(senha, usuario.senha);
     if (!valido) return res.status(401).json({ erro: "Senha incorreta" });
 
-    const token = jwt.sign({ id: usuario.id, email: usuario.email }, SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: usuario.id }, SECRET, { expiresIn: "1h" });
     res.json({ token });
   });
 });
 
-
 // =====================
-// ADM ROTA
+// CRUD GALERIA (Mantido aqui por enquanto)
 // =====================
-app.get('/admin.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/admin.html'));
-});
-
-// =====================
-// CRUD FUNCIONÁRIOS
-// =====================
-
-// CREATE
-app.post("/funcionarios", autenticarToken, upload.single("foto"), (req, res) => {
-  const { nome, cargo } = req.body;
-  if (!req.file) return res.status(400).json({ erro: "Arquivo não enviado" });
-  if (!nome || !cargo) return res.status(400).json({ erro: "Campos obrigatórios" });
-
-  const foto = req.file.filename;
-
-  const sql = "INSERT INTO funcionarios (nome, cargo, foto) VALUES (?, ?, ?)";
-  connection.query(sql, [nome, cargo, foto], (err, result) => {
-    if (err) return res.status(500).json(err);
-    res.json({ id: result.insertId, nome, cargo, foto });
-  });
-});
-
-// READ
-app.get("/funcionarios", (req, res) => {
-  connection.query("SELECT * FROM funcionarios", (err, results) => {
+app.get("/galeria", (req, res) => {
+  connection.query("SELECT * FROM galeria", (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
 });
 
-// UPDATE
-app.put("/funcionarios/:id", autenticarToken, upload.single("foto"), (req, res) => {
-  const { nome, cargo } = req.body;
-  const { id } = req.params;
-
-  if (!nome || !cargo) return res.status(400).json({ erro: "Campos obrigatórios" });
-
-  let sql, params;
-  if (req.file) {
-    sql = "UPDATE funcionarios SET nome = ?, cargo = ?, foto = ? WHERE id = ?";
-    params = [nome, cargo, req.file.filename, id];
-  } else {
-    sql = "UPDATE funcionarios SET nome = ?, cargo = ? WHERE id = ?";
-    params = [nome, cargo, id];
-  }
-
-  connection.query(sql, params, (err, result) => {
+app.post("/galeria", autenticarToken, upload.single("imagem"), (req, res) => {
+  const { titulo } = req.body;
+  if (!req.file) return res.status(400).json({ erro: "Selecione uma imagem" });
+  const arquivo = req.file.filename;
+  connection.query("INSERT INTO galeria (titulo, arquivo) VALUES (?, ?)", [titulo, arquivo], (err, result) => {
     if (err) return res.status(500).json(err);
-    res.json({ mensagem: "Funcionário atualizado" });
+    res.json({ id: result.insertId, titulo, arquivo });
   });
 });
 
-// DELETE
-app.delete("/funcionarios/:id", autenticarToken, (req, res) => {
-  const { id } = req.params;
-  connection.query("DELETE FROM funcionarios WHERE id = ?", [id], (err, result) => {
+app.delete("/galeria/:id", autenticarToken, (req, res) => {
+  connection.query("DELETE FROM galeria WHERE id = ?", [req.params.id], (err) => {
     if (err) return res.status(500).json(err);
-    res.json({ mensagem: "Funcionário removido", affectedRows: result.affectedRows });
+    res.json({ mensagem: "Imagem removida" });
   });
 });
 
-// REGISTRO
-app.post('/auth/register', (req, res) => {
-  const { email, senha, nome } = req.body;
-  if (!email || !senha) return res.status(400).json({ erro: "Email e senha obrigatórios" });
-
-  // Verifica se já existe
-  connection.query("SELECT * FROM usuarios WHERE email = ?", [email], (err, results) => {
-    if (err) return res.status(500).json(err);
-    if (results.length > 0) return res.status(400).json({ erro: "Usuário já existe" });
-
-    // Hash da senha
-    const hashSenha = bcrypt.hashSync(senha, 8);
-
-    // Insere no banco
-    connection.query(
-      "INSERT INTO usuarios (email, senha, nome) VALUES (?, ?, ?)",
-      [email, hashSenha, nome || ""],
-      (err, result) => {
-        if (err) return res.status(500).json(err);
-        res.json({ id: result.insertId, email, nome });
-      }
-    );
-  });
-});
-
-// =====================
-// START SERVER
-// =====================
 app.listen(3000, () => console.log("Servidor rodando em http://localhost:3000"));

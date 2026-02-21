@@ -8,6 +8,7 @@
   <title>Animal Help</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; font-src * data:;">
 
   <!--Insert Favicons Here -->    
   <link rel="icon" type="image/png" href="assets/img/favicon.png">
@@ -30,9 +31,21 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+   <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];
+      w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+      j. async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-KRFK3PCB');
+  </script>
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#navbar" data-bs-offset="100" tabindex="0"> 
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRFK3PCB"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
   <div id="topbar" class="d-flex align-items-center fixed-top">
     <div class="container d-flex justify-content-between">
       <div class="contact-info d-flex align-items-center">
@@ -61,6 +74,7 @@
         <li><a class="nav-link scrollto" href="#services">Serviços</a></li>
         <li><a class="nav-link scrollto" href="#departments">Departamentos</a></li>
         <li><a class="nav-link scrollto" href="#doctors">Equipe</a></li>
+        <li><a class="nav-link scrollto" href="#FAQ">Perguntas</a></li>
         <li><a class="nav-link scrollto" href="#contact">Endereço</a></li>
       </ul>
     </nav>
@@ -81,7 +95,7 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container">
-      <h3 style="color: #0c8dbc;">Clínica Veterinária Animal Help 24h</h3>
+      <h3 style="color: #329dc4;">Clínica Veterinária Animal Help 24h</h3>
       <a href="#about" class="btn-get-started scrollto">Começar</a>
     </div>
   </section>
@@ -141,7 +155,6 @@
       <div class="container-fluid">
 
     <div class="row">
-      <!-- Substituir o link do YouTube pelo vídeo -->
       <div class="col-xl-5 col-lg-6 video-box d-flex justify-content-center align-items-stretch position-relative">
         <video autoplay muted loop class="video-fundo">
           <source src="assets/img/VACINAR.mp4" type="video/mp4">
@@ -341,7 +354,7 @@
               <div class="tab-pane active show" id="tab-1">
                 <div class="row gy-4">
                   <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>🩺 Clínica Geral: Seu Ponto de Partida para uma Saúde Plena! ✨</h3>
+                    <h3>Clínica Geral: Seu Ponto de Partida para uma Saúde Plena!</h3>
                     <p class="fst-italic">Na nossa Clínica Geral, você encontra um cuidado integral e personalizado para todas as suas necessidades de saúde. Somos seu parceiro no bem-estar, oferecendo um atendimento humano e focado em prevenir e tratar, garantindo sua qualidade de vida.</p>
                     <p>O que oferecemos para você: <br>
                       <br>
@@ -414,82 +427,109 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
       </div>
     </section><!-- End Departments Section -->
 
-<!-- ======= Começo seção de equipe ======= -->
+<!-- ======= Equipe ======= -->
 <section id="doctors" class="doctors">
   <div class="container">
 
     <div class="section-title">
       <h2>Nossa Equipe</h2>
-      <p>Nossa equipe é formada por veterinários experientes, assistentes cuidadosos e profissionais especializados, prontos para oferecer o melhor atendimento em todas as fases da vida do seu companheiro. Cada membro do nosso time compartilha um propósito: cuidar dos seus pets como se fossem nossos, com carinho, respeito e muita atenção aos detalhes.</p>
+      <p>Profissionais qualificados prontos para cuidar do seu pet.</p>
+    </div>
 
-      <div id="lista-funcionarios" class="container-funcionarios"></div>
-      
-<!-- Fim seção de Equipe -->
+    <div id="grid-equipe" class="row">
+    </div>
 
-    <!-- ======= FAQ ======= -->
-    <section id="faq" class="faq section-bg">
-      <div class="container">
+  </div>
+</section>
+<!-- End Equipe -->
 
-        <div class="section-title">
-          <h2>Perguntas frequentes</h2>
-          <p>Sabemos que cuidar do seu pet levanta muitas dúvidas. Por isso, reunimos aqui as perguntas que ouvimos com mais frequência para facilitar e deixar você mais tranquilo. Caso não encontre o que procura, estamos prontos para ajudar diretamente!</p>
-        </div>
+<!-- =======FAQ"======= -->
+<section id="FAQ" class="faq section-bg">
+  <div class="container">
 
-        <div class="faq-list">
-          <ul>
-            <li data-aos="fade-up">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1">A clínica oferece planos de saúde para pets?
-<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
-                <p>
-                  Não oferecemos planos de saúde próprios, mas aceitamos Petlove, outros planos de saúde pet e assistências de seguro pet. Se você já tem um desses serviços
-                </p>
-              </div>
-            </li>
+    <div class="section-title" data-aos="fade-up">
+      <h2>Perguntas Frequentes</h2>
+      <p>Sabemos que cuidar do seu pet levanta muitas dúvidas. Reunimos aqui as perguntas mais frequentes para sua tranquilidade.</p>
+    </div>
 
-            <li data-aos="fade-up" data-aos-delay="100">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-2" class="collapsed">A clínica disponibiliza internação para animais? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Sim, dispomos de estrutura completa para internação, supervisionada por profissionais dedicados. Venha conhecer nosso espaço e saiba como podemos cuidar do seu pet nos momentos que ele mais precisa.
-                </p>
-              </div>
-            </li>
+    <div class="faq-list">
+      <ul>
+        <li data-aos="fade-up">
+          <a data-bs-toggle="collapse" class="collapse d-flex align-items-center" data-bs-target="#faq-list-1">
+            <i class="bx bx-help-circle icon-help"></i> 
+            <span>A clínica oferece planos de saúde para pets?</span>
+            <i class="bx bx-chevron-down icon-show"></i>
+            <i class="bx bx-chevron-up icon-close"></i>
+          </a>
+          <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
+            <p>
+              Não oferecemos planos de saúde próprios, mas aceitamos Petlove, outros planos de saúde pet e assistências de seguro pet.
+            </p>
+          </div>
+        </li>
 
-            <li data-aos="fade-up" data-aos-delay="200">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-3" class="collapsed">A clínica oferece atendimento de emergência 24h? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Sim, contamos com plantão de emergência 24 horas para cuidar do seu pet a qualquer hora! Em situações de urgência, pode contar conosco.
-                </p>
-              </div>
-            </li>
+        <li data-aos="fade-up" data-aos-delay="100">
+          <a data-bs-toggle="collapse" data-bs-target="#faq-list-2" class="collapsed d-flex align-items-center">
+            <i class="bx bx-help-circle icon-help"></i>
+            <span>A clínica disponibiliza internação para animais?</span>
+            <i class="bx bx-chevron-down icon-show"></i>
+            <i class="bx bx-chevron-up icon-close"></i>
+          </a>
+          <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              Sim, dispomos de estrutura completa para internação, supervisionada por profissionais dedicados 24h por dia.
+            </p>
+          </div>
+        </li>
 
-            <li data-aos="fade-up" data-aos-delay="300">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-4" class="collapsed"> Possuem serviço de vacinação e vermifugação regular? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-4" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                 Sim, cuidamos da prevenção com vacinas e vermífugos, mantendo a saúde do seu pet sempre em dia.
-                </p>
-              </div>
-            </li>
+        <li data-aos="fade-up" data-aos-delay="200">
+          <a data-bs-toggle="collapse" data-bs-target="#faq-list-3" class="collapsed d-flex align-items-center">
+            <i class="bx bx-help-circle icon-help"></i>
+            <span>A clínica oferece atendimento de emergência 24h?</span>
+            <i class="bx bx-chevron-down icon-show"></i>
+            <i class="bx bx-chevron-up icon-close"></i>
+          </a>
+          <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              Sim, contamos com plantão de emergência 24 horas para cuidar do seu pet a qualquer hora do dia ou da noite.
+            </p>
+          </div>
+        </li>
 
-            <li data-aos="fade-up" data-aos-delay="400">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-5" class="collapsed">Quais vacinas são indispensáveis para meu pet?<i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-5" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Para cães: Vacina V10 ou V8 (proteção contra várias doenças), antirrábica e contra gripe canina.<br>
-                  Para gatos: Vacinas tríplice (V3), quádrupla (V4) ou quíntupla (V5), além da antirrábica.<br>
-                  O veterinário sempre indicará o melhor protocolo para o seu pet.
-                </p>
-              </div>
-            </li>
+        <li data-aos="fade-up" data-aos-delay="300">
+          <a data-bs-toggle="collapse" data-bs-target="#faq-list-4" class="collapsed d-flex align-items-center">
+            <i class="bx bx-help-circle icon-help"></i>
+            <span>Possuem serviço de vacinação e vermifugação regular?</span>
+            <i class="bx bx-chevron-down icon-show"></i>
+            <i class="bx bx-chevron-up icon-close"></i>
+          </a>
+          <div id="faq-list-4" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              Sim, cuidamos da prevenção com vacinas e vermífugos, mantendo a carteirinha de saúde do seu pet sempre em dia.
+            </p>
+          </div>
+        </li>
 
-          </ul>
-        </div>
+        <li data-aos="fade-up" data-aos-delay="400">
+          <a data-bs-toggle="collapse" data-bs-target="#faq-list-5" class="collapsed d-flex align-items-center">
+            <i class="bx bx-help-circle icon-help"></i>
+            <span>Quais vacinas são indispensáveis para meu pet?</span>
+            <i class="bx bx-chevron-down icon-show"></i>
+            <i class="bx bx-chevron-up icon-close"></i>
+          </a>
+          <div id="faq-list-5" class="collapse" data-bs-parent=".faq-list">
+            <p>
+              Para cães: V10/V8 e Antirrábica. Para gatos: Quíntupla (V5) e Antirrábica. O veterinário definirá o protocolo ideal.
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
 
-      </div>
-    </section><!-- End Frequently Asked Questions Section -->
+  </div>
+</section>
+    
+    <!-- End Frequently Asked Questions Section -->
 
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
@@ -504,84 +544,18 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
     <!-- ======= Gallery Section ======= -->
     <section id="gallery" class="gallery">
       <div class="container">
-
         <div class="section-title">
-          <h2>Galeria</h2>
-          <p>Na Clínica Veterinária Animal Help, cada imagem captura um momento especial! Da dedicação da nossa equipe ao cuidado e amor pelos seus melhores amigos, nossa galeria é um reflexo do compromisso que temos com o bem-estar animal.</p>
         </div>
       </div>
-
-      <div class="container-fluid">
-        <div class="row g-0">
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-1.jpeg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-1.jpeg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-2.jpeg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-2.jpeg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-3.jpeg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-3.jpeg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-4.jpeg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-4.jpeg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-5.jpg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-5.jpg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-6.jpg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-6.jpg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-7.jpeg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-7.jpg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="public/assets/img/gallery/gallery-8.jpeg" class="galelry-lightbox">
-                <img src="public/assets/img/gallery/gallery-8.jpg" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Gallery Section -->
+<section id="galeria" class="container">
+    <div class="section-title">
+        <h2>Nossa Clínica</h2>
+        <p>Na Clínica Veterinária Animal Help, cada imagem captura um momento especial! Da dedicação da nossa equipe ao cuidado e amor pelos seus melhores amigos, nossa galeria é um reflexo do compromisso que temos com o bem-estar animal.</p>
+    </div>
+    
+    <div id="grid-galeria" class="index-grid"></div>
+</section>
+    <!-- End Gallery Section -->
 
     <!-- ======= Contact Section ======= -->
 <section id="contact" class="contact">
@@ -600,16 +574,13 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
     <div class="map-row">
       <!-- Mapa 1 -->
       <div class="map-container">
-        <h3>Unidade 1</h3>
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1254.8467230131728!2d-60.00754886065878!3d-3.1237196692104168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x926c05c307816841%3A0x4c455921227f2d6e!2sClinica%20Veterinaria%20Animal%20Help%20-%20Mais!5e0!3m2!1spt-BR!2sbr!4v1750623887222!5m2!1spt-BR!2sbr"
-          width="100%" 
-          height="400" 
-          style="border:0;" 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.891954731663!2d-60.010245924137294!3d-3.1232666403951033!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x926c05c307816841%3A0x4c455921227f2d6e!2sClinica%20Veterinaria%20Animal%20Help%20-%20Mais!5e0!3m2!1spt-BR!2sbr!4v1771632664669!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" 
           allowfullscreen="" 
-          loading="lazy">
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
         </iframe>
-    </div>
+      </div>
   </div>
 </section>
 <div class="container">
@@ -716,77 +687,5 @@ Hemogramas e análises de sangue, Exames de urina e fezes, Testes bioquímicos e
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
-  <!-- Script dos funcionarios -->
-<script>
-async function carregarFuncionarios() {
-  try {
-    const res = await fetch("http://localhost:3000/funcionarios");
-    const funcionarios = await res.json();
-
-    const container = document.getElementById("lista-funcionarios");
-    if (!container) return;
-    
-    container.innerHTML = ""; 
-
-    funcionarios.forEach(f => {
-      const div = document.createElement("div");
-      div.className = "card-funcionario animate__animated animate__fadeInUp"; // Adicionei animação do seu template
-      
-      div.innerHTML = `
-        <img src="http://localhost:3000/uploads/${f.foto}" alt="Foto de ${f.nome}">
-        <div class="card-info">
-          <h3>${f.nome}</h3>
-          <p>${f.cargo}</p>
-        </div>
-      `;
-      container.appendChild(div);
-    });
-  } catch (err) {
-    console.error("Erro ao carregar equipe:", err);
-  }
-}
-
-// Executa ao carregar a página
-document.addEventListener("DOMContentLoaded", carregarFuncionarios);
-</script>
-
-<script>
-document.addEventListener('keydown', function(event) {
-  if (event.shiftKey && event.key.toLowerCase() === 'e') {
-    // Criar alerta visual temporário
-    const aviso = document.createElement('div');
-    aviso.textContent = "🔐 Abrindo tela de login...";
-    aviso.style.position = 'fixed';
-    aviso.style.top = '20px';
-    aviso.style.left = '50%';
-    aviso.style.transform = 'translateX(-50%)';
-    aviso.style.backgroundColor = '#ff4d4d';
-    aviso.style.color = '#fff';
-    aviso.style.fontWeight = 'bold';
-    aviso.style.padding = '15px 25px';
-    aviso.style.borderRadius = '10px';
-    aviso.style.boxShadow = '0 0 10px rgba(0,0,0,0.3)';
-    aviso.style.zIndex = '10000';
-    aviso.style.textAlign = 'center';
-    aviso.style.opacity = '0';
-    aviso.style.transition = 'opacity 0.3s ease';
-    document.body.appendChild(aviso);
-
-    // Fade in
-    setTimeout(() => { aviso.style.opacity = '1'; }, 10);
-
-    // Fade out e redirecionar
-    setTimeout(() => {
-      aviso.style.opacity = '0';
-      setTimeout(() => {
-        aviso.remove();
-        window.location.href = '/login';
-      }, 300);
-    }, 1200); // mostra por 1,2s
-  }
-});
-</script>
-
 </body>
 </html>

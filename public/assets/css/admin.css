@@ -1,0 +1,208 @@
+/* Paleta AnimalHelp: Azul e Rosa Pastel */
+:root {
+    --primary: #0c8dbc;      /* Azul principal */
+    --accent-pink: #f1a7c4;  /* Rosa Pastel */
+    --pink-hover: #e88fb1;
+    --bg: #f4f9fb;           /* Fundo levemente azulado */
+    --white: #ffffff;
+    --border: #eef2f6;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--bg);
+    margin: 0;
+    color: #2c3e50;
+}
+
+/* Header */
+.crud-header {
+    background: var(--primary);
+    border-bottom: 5px solid var(--accent-pink);
+    color: white;
+    padding: 1rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+}
+
+.header-logo h2 { margin: 0; font-weight: 700; letter-spacing: 1px; }
+.header-logo span { font-size: 12px; opacity: 0.9; text-transform: uppercase; }
+
+.status-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+/* Container */
+.container-admin {
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+/* Cards */
+.crud-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+    border-top: 6px solid var(--accent-pink);
+    margin-bottom: 25px;
+}
+
+.table-card {
+    background: var(--white);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+}
+
+h3 {
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    margin-top: 0;
+}
+
+/* Inputs */
+.form-group { margin-bottom: 15px; }
+label { display: block; font-weight: 700; font-size: 12px; margin-bottom: 6px; color: #555; }
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+.form-control:focus { border-color: var(--accent-pink); outline: none; background: #fff; }
+
+/* Tabela */
+.crud-table { width: 100%; border-collapse: collapse; }
+.crud-table th { background: #f8fbfc; padding: 15px; color: var(--primary); font-size: 11px; text-transform: uppercase; text-align: left; }
+.crud-table td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 14px; }
+
+/* Fotos Verticais Portrait */
+.img-admin-thumb {
+    width: 65px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 3px solid var(--accent-pink);
+}
+
+/* Botões */
+.btn-action {
+    padding: 14px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.btn-save {
+    background: var(--accent-pink);
+    color: white;
+    width: 100%;
+}
+
+.btn-save:hover {
+    background: var(--pink-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(241, 167, 196, 0.4);
+}
+
+/* --- BOTÃO DE DELETAR VERSÃO NEUTRA --- */
+
+.btn-delete {
+    /* Estado Neutro (Normal) */
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f1f1 !important; /* Cinza bem clarinho e neutro */
+    border: 1px solid #ddd !important;     /* Borda sutil */
+    border-radius: 4px !important;
+    padding: 8px !important;
+    cursor: pointer !important;
+    width: 36px !important;
+    height: 36px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: all 0.3s ease !important;   /* Transição suave para a cor */
+}
+
+/* Ícone Neutro */
+.btn-delete svg {
+    stroke: #888 !important; /* Cinza médio para o desenho */
+    width: 18px;
+    height: 18px;
+    transition: all 0.3s ease !important;
+}
+
+/* --- EFEITO AO PASSAR O MOUSE (HOVER) --- */
+
+.btn-delete:hover {
+    background-color: #dc3545 !important; /* Torna-se vermelho */
+    border-color: #dc3545 !important;
+    transform: scale(1.1);                 /* Leve aumento */
+}
+
+/* Ícone no Hover */
+.btn-delete:hover svg {
+    stroke: #ffffff !important; /* Desenho fica branco no fundo vermelho */
+}
+/* Força o ícone a ter visibilidade */
+.bx-trash, .fa-trash-alt {
+    display: inline-block !important;
+}
+
+.btn-delete:hover { background: #ff5e5e; color: white; }
+
+/* Responsivo */
+@media (max-width: 1000px) {
+    .container-admin { grid-template-columns: 1fr; }
+}
+
+/* --- ADICIONE NO FINAL DO SEU CSS DO ADMIN --- */
+
+/* Estilo para o botão que envolve o ícone */
+.btn-delete {
+    background-color: transparent; /* Fundo transparente */
+    border: none;                  /* Sem borda padrão */
+    cursor: pointer;               /* Mãozinha ao passar o mouse */
+    padding: 5px;
+    display: inline-flex;          /* Garante alinhamento */
+    align-items: center;
+    justify-content: center;
+}
+
+/* Força a cor e o tamanho do ícone da lixeira (Boxicons e FontAwesome) */
+.btn-delete i,
+.btn-delete .bx-trash,
+.btn-delete .fa-trash,
+.btn-delete .fa-trash-alt {
+    color: #dc3545 !important; /* Cor vermelha vibrante (Use !important para forçar) */
+    font-size: 1.3rem !important; /* Tamanho visível */
+    display: inline-block !important; /* Garante que não está oculto */
+    visibility: visible !important;
+}
+
+/* Efeito ao passar o mouse */
+.btn-delete:hover i {
+    color: #c82333 !important; /* Vermelho mais escuro no hover */
+    transform: scale(1.1);      /* Leve aumento */
+}

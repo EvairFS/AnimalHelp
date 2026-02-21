@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="assets/css/login.css" rel="stylesheet">
     <title>Login AnimalHelp24h</title>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
 </head>
 <body>
     <section> 
@@ -34,64 +35,12 @@
                                       
                 </div>
 
-                <button type="button" onclick="login()">Entrar</button>
+                <button type="button" id="btn-login">Entrar</button>
                 <p id="erro"></p>
 
             </main>
         </div>
     </section>
- <script>
-function login() {
-  const emailEl = document.getElementById("email");
-  const senhaEl = document.getElementById("senha");
-  const erroEl = document.getElementById("erro");
-  erroEl.textContent = "";
-
-  const email = emailEl.value;
-  const senha = senhaEl.value;
-
-  if (!email || !senha) {
-    erroEl.textContent = "Preencha email e senha";
-    if (!email) {
-      emailEl.classList.add("input-erro");
-      setTimeout(() => emailEl.classList.remove("input-erro"), 500);
-    }
-    if (!senha) {
-      senhaEl.classList.add("input-erro");
-      setTimeout(() => senhaEl.classList.remove("input-erro"), 500);
-    }
-    return;
-  }
-
-    fetch("http://localhost:3000/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, senha })
-    }) 
-  .then(res => res.json())
-  .then(data => {
-      const emailEl = document.getElementById("email");
-      const senhaEl = document.getElementById("senha");
-
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-        window.location.href = "/admin.html"; 
-      } else if (data.erro) {
-        document.getElementById("erro").textContent = data.erro;
-
-        // Shake visual e borda vermelha
-        if (data.erro.toLowerCase().includes("senha")) {
-          senhaEl.classList.add("input-erro");
-          setTimeout(() => senhaEl.classList.remove("input-erro"), 500);
-        } else if (data.erro.toLowerCase().includes("usuário")) {
-          emailEl.classList.add("input-erro");
-          setTimeout(() => emailEl.classList.remove("input-erro"), 500);
-        }
-      } else {
-        document.getElementById("erro").textContent = "Erro desconhecido";
-      }
-  })
-};
-  </script>
+    <script src="assets/js/login.js"></script>
 </body>
 </html>

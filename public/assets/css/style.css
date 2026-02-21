@@ -42,10 +42,12 @@ h6 {
 }
 
 #preloader:before {
+  top: 50%;
+  left: 50%;
+  margin-top: -30px;
+  margin-left: -30px;
   content: "";
   position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
   border: 6px solid #1977cc;
   border-top-color: #d1e6f9;
   border-radius: 50%;
@@ -530,7 +532,8 @@ header .whatsapp-btn {
   font-weight: 700;
   line-height: 56px;
   text-transform: uppercase;
-  color: #2c4964;
+  color: #3e93e9;
+  text-shadow: 1px 1px 0 rgb(6, 43, 59);
 }
 
 #hero h2 {
@@ -945,11 +948,19 @@ section {
 # Counts
 --------------------------------------------------------------*/
 
+/* Container de mídia principal */
 .video-box .video-fundo {
-  width: 100%; /* Garante que o vídeo ocupe toda a largura disponível */
-  height: 100%; /* Ajusta a altura do vídeo */
-  object-fit: cover; /* Faz o vídeo ocupar o espaço sem distorções */
-  border-radius: 10px; /* (Opcional) Adiciona bordas arredondadas */
+  /* Dimensionamento e Proporção */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-left: 50px;   /* Move para a direita */
+
+  /* Estilização Visual */
+  border-radius: 10px;
+  
+  /* Melhora o desempenho de renderização (Opcional) */
+  display: block;
 }
 .counts {
   background: #f1f7fd;
@@ -1243,108 +1254,56 @@ section {
   border-radius: 10px;
 }
 
-.doctors .member .pic {
+/* Garante que o container da galeria apareça e se expanda */
+#grid-galeria {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  min-height: 200px; /* Se estiver vazio, ele ainda ocupa espaço */
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.galeria-card {
+  display: block !important;
+  background: #fff;
+}
+
+/* Ajuste dos Cards para não ocuparem a linha toda */
+.medico-card, .galeria-card {
+  flex: 0 0 calc(33.333% - 20px) !important; /* Força 3 por linha no PC */
+  min-width: 280px !important; /* Impede de ficar pequeno demais */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   overflow: hidden;
-  width: 180px; /* Largura do círculo */
-  height: 180px; /* Altura igual para manter a proporção circular */
-  border-radius: 50%; /* Torna o contêiner circular */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin-bottom: 20px;
 }
-@media (max-width: 768px) {
-  .doctors .member .pic {
-    width: 120px; /* Reduz tamanho em telas menores */
-    height: 120px; /* Mantém a proporção circular */
-  }
 
-  .doctors .member .pic img {
-    width: 100%;
-    height: 100%;
+/* Ajuste para Tablet (2 por linha) */
+@media (max-width: 992px) {
+  .medico-card, .galeria-card {
+    flex: 0 0 calc(50% - 20px) !important;
   }
 }
 
-.doctors .member .pic img {
-  width: 100%; /* Preenche o contêiner */
-  height: auto; /* Mantém a proporção ao ajustar para a largura */
-  object-fit: cover; /* Centraliza a imagem e evita distorção */
-  border-radius: 50%; /* Faz a imagem seguir a forma circular */
+/* Ajuste para Celular (1 por linha) */
+@media (max-width: 576px) {
+  .medico-card, .galeria-card {
+    flex: 0 0 100% !important;
+  }
 }
 
-.doctors .member:hover img {
-  transform: scale(1.1);
-}
-
-.doctors .member .member-info {
-  padding-left: 30px;
-}
-
-.doctors .member h4 {
-  font-weight: 700;
-  margin-bottom: 5px;
-  font-size: 20px;
-  color: #2c4964;
-}
-
-.doctors .member span {
-  display: block;
-  font-size: 15px;
-  padding-bottom: 10px;
-  position: relative;
-  font-weight: 500;
-}
-
-.doctors .member span::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 50px;
-  height: 1px;
-  background: #b2c8dd;
-  bottom: 0;
-  left: 0;
-}
-
-.doctors .member p {
-  margin: 10px 0 0 0;
-  font-size: 14px;
-}
-
-.doctors .member .social {
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-.doctors .member .social a {
-  transition: ease-in-out 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50px;
-  width: 32px;
-  height: 32px;
-  background: #a0bcd5;
-}
-
-.doctors .member .social a i {
-  color: #fff;
-  font-size: 16px;
-  margin: 0 2px;
-}
-
-.doctors .member .social a:hover {
-  background: #1977cc;
-}
-
-.doctors .member .social a+a {
-  margin-left: 8px;
+/* Garante que a imagem preencha o card */
+.medico-card img, .galeria-card img {
+  width: 100% !important;
+  height: 300px !important; /* Altura fixa para alinhar tudo */
+  object-fit: cover !important;
 }
 
 /*--------------------------------------------------------------
 # Frequently Asked Questions
 --------------------------------------------------------------*/
+/* Layout Geral do FAQ */
 .faq .faq-list {
   padding: 0 100px;
 }
@@ -1354,62 +1313,83 @@ section {
   list-style: none;
 }
 
-.faq .faq-list li+li {
-  margin-top: 15px;
-}
-
 .faq .faq-list li {
   padding: 20px;
   background: #fff;
-  border-radius: 4px;
-  position: relative;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.05);
 }
 
+/* Estilo do Link (Pergunta) */
 .faq .faq-list a {
-  display: block;
-  position: relative;
+  display: flex;
+  align-items: center;
   font-family: "Poppins", sans-serif;
   font-size: 16px;
-  line-height: 24px;
   font-weight: 500;
-  padding: 0 30px;
-  outline: none;
+  text-decoration: none;
+  transition: 0.3s;
   cursor: pointer;
+  color: #1977cc; /* Cor de quando está aberto */
 }
 
+.faq .faq-list a:hover {
+  color: #3291e6; /* Um azul mais claro no hover */
+}
+
+.faq .faq-list a.collapsed {
+  color: #343a40; /* Cor cinza escuro padrão */
+}
+
+.faq .faq-list a.collapsed:hover {
+  color: #1977cc; /* Volta para o azul ao passar o mouse */
+}
+
+.faq .faq-list a:hover .icon-help,
+.faq .faq-list a:hover .icon-show,
+.faq .faq-list a:hover .icon-close {
+  color: inherit; /* Faz o ícone herdar a cor do link no hover */
+}
 .faq .faq-list .icon-help {
   font-size: 24px;
-  position: absolute;
-  right: 0;
-  left: 20px;
   color: #76b5ee;
+  margin-right: 12px;
+  flex-shrink: 0;
+  transition: 0.3s;
 }
 
 .faq .faq-list .icon-show,
 .faq .faq-list .icon-close {
+  font-size: 20px;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: 0.3s;
+}
+
+.faq .faq-list a.collapsed .icon-show { display: inline-block; }
+.faq .faq-list a.collapsed .icon-close { display: none; }
+.faq .faq-list a:not(.collapsed) .icon-show { display: none; }
+.faq .faq-list a:not(.collapsed) .icon-close { display: inline-block; }
+
+/* Ícone de Ajuda (Fixo à esquerda) */
+.faq .faq-list .icon-help {
   font-size: 24px;
-  position: absolute;
-  right: 0;
-  top: 0;
+  color: #76b5ee;
+  margin-right: 12px;
+  flex-shrink: 0;
 }
 
-.faq .faq-list p {
-  margin-bottom: 0;
-  padding: 10px 0 0 0;
+/* Setas de Abrir/Fechar (Empurradas para a direita) */
+.faq .faq-list .icon-show,
+.faq .faq-list .icon-close {
+  font-size: 20px;
+  margin-left: auto; /* Truque flex para alinhar na direita */
+  flex-shrink: 0;
+  transition: 0.3s;
 }
 
-.faq .faq-list .icon-show {
-  display: none;
-}
-
-.faq .faq-list a.collapsed {
-  color: #343a40;
-}
-
-.faq .faq-list a.collapsed:hover {
-  color: #1977cc;
-}
-
+/* Lógica de Exibição das Setas */
 .faq .faq-list a.collapsed .icon-show {
   display: inline-block;
 }
@@ -1418,6 +1398,24 @@ section {
   display: none;
 }
 
+.faq .faq-list a:not(.collapsed) .icon-show {
+  display: none;
+}
+
+.faq .faq-list a:not(.collapsed) .icon-close {
+  display: inline-block;
+  color: #1977cc;
+}
+
+/* Estilo da Resposta */
+.faq .faq-list p {
+  margin-bottom: 0;
+  padding: 15px 0 0 36px; /* Alinha o texto abaixo da pergunta, pulando o ícone */
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Responsividade */
 @media (max-width: 1200px) {
   .faq .faq-list {
     padding: 0;
@@ -1546,22 +1544,117 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Gallery
+# Gallery -
 --------------------------------------------------------------*/
-.gallery .gallery-item {
+/* Container de Grid Geral (serve para Médicos e Galeria) */
+
+/* Container que segura os médicos */
+/* Container principal da equipe */
+#grid-equipe.row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza se houver poucos médicos */
+  gap: 30px;
+  margin-top: 20px;
+}
+
+/* O Card do Médico */
+.medico-card {
+  background: #fff;
+  /* Ajusta a largura: em telas grandes terá cerca de 350px */
+  flex: 1 1 350px; 
+  max-width: 400px; 
+  border-radius: 15px;
   overflow: hidden;
-  border-right: 3px solid #fff;
-  border-bottom: 3px solid #fff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
+  margin-bottom: 20px;
 }
 
-.gallery .gallery-item img {
-  transition: all ease-in-out 0.4s;
+/* Efeito de destaque ao passar o mouse */
+.medico-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
-.gallery .gallery-item:hover img {
-  transform: scale(1.1);
+/* Foto do médico */
+.medico-card img {
+  width: 100%;
+  height: 400px; /* Altura imponente para fotos verticais */
+  object-fit: cover;
+  display: block;
 }
 
+/* Informações abaixo da foto */
+.medico-info {
+  padding: 25px;
+  text-align: center;
+}
+
+.medico-info h3 {
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+.medico-info p {
+  font-style: italic;
+  color: #666;
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Ajuste para telas de celular */
+@media (max-width: 575px) {
+  .medico-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* Estilo do Card da Galeria  */
+#grid-galeria.row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  margin-right: -15px !important;
+  margin-left: -15px !important;
+}
+
+/* Garante que as colunas do Bootstrap não ocupem 100% sozinhas */
+#grid-galeria [class*="col-"] {
+  display: block !important;
+  width: auto; /* Deixa o Bootstrap controlar o width */
+}
+
+.galeria-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  overflow: hidden;
+  height: 100%; /* Faz todos os cards da mesma linha terem a mesma altura */
+  border: 1px solid #eee;
+}
+
+.galeria-img-container {
+  width: 100%;
+  height: 200px;
+}
+
+.galeria-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#grid-equipe.row, #grid-galeria.row {
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+/* Em telas de computador (opcional), se quiser 4 fotos por linha em vez de 2 */
+@media (min-width: 992px) {
+  /* .gallery .gallery-item { flex: 0 0 25% !important; max-width: 25% !important; } */
+}
 
 /*--------------------------------------------------------------
 # Contact
