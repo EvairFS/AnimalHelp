@@ -1,3 +1,4 @@
+console.log("🚨 SERVIDOR CERTO CARREGADO 🚨");
 const cors = require("cors");
 const express = require('express');
 const multer = require('multer');
@@ -42,7 +43,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
-app.use(express.static(path.join(__dirname, '../public')));
+
 
 
 // CONECTANDO O ROTEADOR DE FUNCIONARIOS
@@ -90,6 +91,8 @@ app.post('/auth/login', (req, res) => {
     res.json({ token });
   });
 });
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 // =====================
 // CRUD GALERIA (async/await)
