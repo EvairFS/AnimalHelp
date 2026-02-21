@@ -9,6 +9,8 @@ const connection = require('./database');
 const rotaFuncionarios = require('./routes/funcionarios'); // Importando o router
 const helmet = require("helmet");
 const PORT = process.env.PORT || 3000;
+const app = express();
+const SECRET = "segredo"; // Mesma SECRET do arquivo de rotas
 
 app.use(cors({
   origin: "https://animalhelp24h.com.br",
@@ -17,8 +19,6 @@ app.use(cors({
   credentials: true
 }));
 
-const app = express();
-const SECRET = "segredo"; // Mesma SECRET do arquivo de rotas
 
 app.options("*", cors());
 app.use(
