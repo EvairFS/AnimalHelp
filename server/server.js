@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require('express');
 const multer = require('multer');
 const fs = require('fs');
@@ -5,14 +6,21 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const connection = require('./database'); 
-const cors = require('cors');
 const rotaFuncionarios = require('./routes/funcionarios'); // Importando o router
 const helmet = require("helmet");
 const PORT = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: "https://animalhelp24h.com.br",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
+
 const app = express();
 const SECRET = "segredo"; // Mesma SECRET do arquivo de rotas
 
+app.options("*", cors());
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -29,12 +37,6 @@ app.use(
 );
 
 // Middleware
-app.use(cors({
-  origin: "https://animalhelp24h.com.br",
-  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true
-}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
