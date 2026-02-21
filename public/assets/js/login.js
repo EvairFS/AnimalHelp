@@ -34,11 +34,13 @@ fetch(`${API_URL}/auth/login`, {
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({ email, senha })
 })
-.then(res => res.text())
-.then(text => {
-  console.log("RESPOSTA BRUTA:", text);
+.then(async (res) => {
+  const text = await res.text();
+  console.log("STATUS:", res.status);
+  console.log("HEADERS:", [...res.headers.entries()]);
+  console.log("BODY:", text);
 })
-.catch(console.error);
+.catch(err => console.error("ERRO FETCH:", err));
 }
 
 /* 👇 ADICIONE ISSO */
