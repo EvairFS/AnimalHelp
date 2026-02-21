@@ -4,7 +4,7 @@
   "description": "Projeto web estático desenvolvido para a **Clínica Veterinária Animal Help – 24 Horas (Manaus, AM)**.   Este site apresenta a interface inicial da clínica, com conteúdo estático em HTML, CSS e JavaScript.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -27,4 +27,5 @@
     "multer": "^2.0.2",
     "mysql2": "^3.17.3"
   }
+  
 }

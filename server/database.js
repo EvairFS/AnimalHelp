@@ -4,7 +4,7 @@ const connection = mysql.createConnection({
   host: 'localhost',      // ou 127.0.0.1
   user: 'root',
   password: '',  // senha correta
-  database: 'animalhelp'       // nome do seu banco
+  database: 'lucina69_animalhelp'       // nome do seu banco
 });
 
 connection.connect(err => {
