@@ -80,30 +80,40 @@ app.post('/auth/login', (req, res) => {
 });
 
 // =====================
-// CRUD GALERIA (Mantido aqui por enquanto)
+// CRUD GALERIA (async/await)
 // =====================
-app.get("/galeria", (req, res) => {
-  connection.query("SELECT * FROM galeria", (err, results) => {
-    if (err) return res.status(500).json(err);
+app.get("/galeria", async (req, res) => {
+  try {
+    const [results] = await connection.query("SELECT * FROM galeria");
     res.json(results);
-  });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-app.post("/galeria", autenticarToken, upload.single("imagem"), (req, res) => {
-  const { titulo } = req.body;
-  if (!req.file) return res.status(400).json({ erro: "Selecione uma imagem" });
-  const arquivo = req.file.filename;
-  connection.query("INSERT INTO galeria (titulo, arquivo) VALUES (?, ?)", [titulo, arquivo], (err, result) => {
-    if (err) return res.status(500).json(err);
+app.post("/galeria", autenticarToken, upload.single("imagem"), async (req, res) => {
+  try {
+    const { titulo } = req.body;
+    if (!req.file) return res.status(400).json({ erro: "Selecione uma imagem" });
+
+    const arquivo = req.file.filename;
+
+    const [result] = await connection.query(
+      "INSERT INTO galeria (titulo, arquivo) VALUES (?, ?)",
+      [titulo, arquivo]
+    );
+
     res.json({ id: result.insertId, titulo, arquivo });
-  });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
-app.delete("/galeria/:id", autenticarToken, (req, res) => {
-  connection.query("DELETE FROM galeria WHERE id = ?", [req.params.id], (err) => {
-    if (err) return res.status(500).json(err);
+app.delete("/galeria/:id", async (req, res) => {
+  try {
+    await connection.query("DELETE FROM galeria WHERE id = ?", [req.params.id]);
     res.json({ mensagem: "Imagem removida" });
-  });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
-
-app.listen(3000, () => console.log("Servidor rodando em http://localhost:3000"));
