@@ -71,6 +71,7 @@ function autenticarToken(req, res, next) {
 // ROTAS DE AUTENTICAÇÃO
 // =====================
 app.post('/auth/login', (req, res) => {
+  console.log("LOGIN CHAMADO");
   const { email, senha } = req.body;
   connection.query("SELECT * FROM usuarios WHERE email = ?", [email], (err, results) => {
     if (err) return res.status(500).json(err);
