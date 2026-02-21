@@ -33,7 +33,7 @@
    */
   const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? "http://localhost:3000"
-    : "https://animalhelp24h.com.br/"; // <-- URL real
+    : "https://animalhelp.onrender.com"; // <-- URL do onrender
 
   /**
    * NAVBAR: Ativa o link conforme a seção visível no scroll

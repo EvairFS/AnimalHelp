@@ -4,7 +4,7 @@ function login() {
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://localhost:3000"
-    : "https://https://animalhelp24h.com.br/";
+    : "https://animalhelp.onrender.com";
   const emailEl = document.getElementById("email");
   const senhaEl = document.getElementById("senha");
   const erroEl = document.getElementById("erro");
