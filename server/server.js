@@ -29,7 +29,12 @@ app.use(
 );
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://animalhelp24h.com.br",
+  methods: ["GET","POST","PUT","DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
