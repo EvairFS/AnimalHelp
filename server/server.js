@@ -8,6 +8,7 @@ const connection = require('./database');
 const cors = require('cors');
 const rotaFuncionarios = require('./routes/funcionarios'); // Importando o router
 const helmet = require("helmet");
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 const SECRET = "segredo"; // Mesma SECRET do arquivo de rotas
@@ -116,4 +117,10 @@ app.delete("/galeria/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
+});
+
+///Porta///
+
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
 });
