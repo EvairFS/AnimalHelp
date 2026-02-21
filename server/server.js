@@ -10,6 +10,10 @@ const rotaFuncionarios = require('./routes/funcionarios'); // Importando o route
 const helmet = require("helmet");
 const PORT = process.env.PORT || 3000;
 const app = express();
+app.use((req, res, next) => {
+  console.log("REQ:", req.method, req.url);
+  next();
+});
 const SECRET = "segredo"; // Mesma SECRET do arquivo de rotas
 
 app.use(cors({
@@ -18,20 +22,21 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
 }));
-//app.use(
-//  helmet({
-//    contentSecurityPolicy: {
-//      useDefaults: true,
-//      directives: {
-//        defaultSrc: ["'self'"],
-//        scriptSrc: ["'self'", "'unsafe-inline'"],
-//        styleSrc: ["'self'", "'unsafe-inline'"],
-//        imgSrc: ["'self'", "data:", "https:"],
-//        connectSrc: ["'self'", "https://animalhelp24h.com.br","https://animalhelp.onrender.com"]
-//      }
-//    }
-//  })
-//)
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", "https://animalhelp24h.com.br","https://animalhelp.onrender.com"]
+      }
+    }
+  })
+)
 
 // Middleware
 app.use(express.json());
@@ -70,6 +75,8 @@ function autenticarToken(req, res, next) {
 // ROTAS DE AUTENTICAÇÃO
 // =====================
 app.post('/auth/login', (req, res) => {
+  console.log("LOGIN CHAMADO");
+  res.json({ ok: true });
   const { email, senha } = req.body;
   connection.query("SELECT * FROM usuarios WHERE email = ?", [email], (err, results) => {
     if (err) return res.status(500).json(err);
