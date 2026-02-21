@@ -18,15 +18,10 @@ app.use(
       useDefaults: true,
       directives: {
         defaultSrc: ["'self'"],
-        // Adicionamos os domínios do Google e Elfsight aqui
-        scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com", "https://static.elfsight.com"],
-        // Liberando CSS do Google e Fontes
-        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"], 
-        imgSrc: ["'self'", "data:", "http://localhost:3000"],
-        connectSrc: ["'self'", "http://localhost:3000"],
-        // Liberando o Frame do Google (Maps/Auth)
-        frameSrc: ["'self'", "https://www.google.com"],
+        scriptSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        connectSrc: ["'self'", "https://animalhelp24.com.br"]
       }
     }
   })
