@@ -74,25 +74,6 @@ function autenticarToken(req, res, next) {
   });
 }
 
-// =====================
-// ROTAS DE AUTENTICAÇÃO
-// =====================
-app.post('/auth/login', (req, res) => {
-  console.log("LOGIN CHAMADO");
-  res.json({ ok: true });
-  const { email, senha } = req.body;
-  connection.query("SELECT * FROM usuarios WHERE email = ?", [email], (err, results) => {
-    if (err) return res.status(500).json(err);
-    if (results.length === 0) return res.status(401).json({ erro: "Usuário não encontrado" });
-    
-    const usuario = results[0];
-    const valido = bcrypt.compareSync(senha, usuario.senha);
-    if (!valido) return res.status(401).json({ erro: "Senha incorreta" });
-
-    const token = jwt.sign({ id: usuario.id }, SECRET, { expiresIn: "1h" });
-    res.json({ token });
-  });
-});
 
 app.use(express.static(path.join(__dirname, '../public')));
 
