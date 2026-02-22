@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const connection = require('./database'); 
+const rotaAuth = require("./routes/auth");
 const rotaFuncionarios = require('./routes/funcionarios'); // Importando o router
 const helmet = require("helmet");
 const PORT = process.env.PORT || 3000;
@@ -42,13 +43,14 @@ app.use(
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static('uploads'));
 
-
-
+app.use("/auth", rotaAuth);
 // CONECTANDO O ROTEADOR DE FUNCIONARIOS
 // Isso substitui todas as rotas manuais de funcionários abaixo
 app.use('/funcionarios', rotaFuncionarios);
+
+app.use('/uploads', express.static('uploads'));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Criar pasta uploads se não existir
 if (!fs.existsSync("uploads")) { fs.mkdirSync("uploads"); }
