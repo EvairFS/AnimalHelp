@@ -19,7 +19,10 @@ app.use((req, res, next) => {
 const SECRET = "segredo"; // Mesma SECRET do arquivo de rotas
 
 app.use(cors({
-  origin: "https://animalhelp24h.com.br",
+  origin: [
+    "https://animalhelp24h.com.br",
+    "https://www.animalhelp24h.com.br"
+  ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true
